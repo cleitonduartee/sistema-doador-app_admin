@@ -50,12 +50,7 @@ export default {
     drawer: null,
     titulo: "Doação Admin",
     rodape: "Cleiton Duarte Goncaçalves",
-    rotas: [
-      {
-        icone: "mdi-home",
-        titulo: "Home",
-        rota: "/",
-      },
+    rotas: [      
       {
         icone: "mdi-account",
         titulo: "Doador",

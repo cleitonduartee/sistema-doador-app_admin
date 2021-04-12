@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-toolbar flat color="white">
+    <v-toolbar  color="white">
       <v-toolbar-title>Doadores</v-toolbar-title>
       <v-divider class="mx-2" inset vertical></v-divider>
       <v-spacer></v-spacer>
@@ -37,15 +37,15 @@
 
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" flat @click="close">Cancelar</v-btn>
+            <v-btn color="blue darken-1"  @click="close">Cancelar</v-btn>
             <v-btn
               color="green"
               v-if="editedItem.id == null"
-              flat
+              
               @click="salvar"
               >Salvar</v-btn
             >
-            <v-btn color="green" v-else flat @click="atualizar"
+            <v-btn color="green" v-else  @click="atualizar"
               >Ataulizar</v-btn
             >
           </v-card-actions>
@@ -63,10 +63,10 @@
           </v-container>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" flat @click="closeExcluir"
+            <v-btn color="blue darken-1"  @click="closeExcluir"
               >Cancelar</v-btn
             >
-            <v-btn color="red" flat @click="deleteItem()">Excluir</v-btn>
+            <v-btn color="red"  @click="deleteItem()">Excluir</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -114,11 +114,10 @@ export default {
     headers: [
       {
         text: "Nome",
-        align: "left",
-        sortable: false,
+        align: "left",        
         value: "nome"
       },
-      { text: "Telefone", value: "telefone" },
+      { text: "Telefone", value: "telefone",sortable: false },
       { text: "Action", value: "action", sortable: false }
     ],
     doadores: [],
@@ -167,7 +166,7 @@ export default {
       }, 1500);
     },
 
-    editItem(item) {
+    editItem(item) {      
       this.editedIndex = this.doadores.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
