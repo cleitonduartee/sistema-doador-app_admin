@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-toolbar  color="white">
+    <v-toolbar color="white">
       <v-toolbar-title>Doadores</v-toolbar-title>
       <v-divider class="mx-2" inset vertical></v-divider>
       <v-spacer></v-spacer>
@@ -37,17 +37,11 @@
 
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="blue darken-1"  @click="close">Cancelar</v-btn>
-            <v-btn
-              color="green"
-              v-if="editedItem.id == null"
-              
-              @click="salvar"
+            <v-btn color="blue darken-1" @click="close">Cancelar</v-btn>
+            <v-btn color="green" v-if="editedItem.id == null" @click="salvar"
               >Salvar</v-btn
             >
-            <v-btn color="green" v-else  @click="atualizar"
-              >Ataulizar</v-btn
-            >
+            <v-btn color="green" v-else @click="atualizar">Ataulizar</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -63,10 +57,8 @@
           </v-container>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="blue darken-1"  @click="closeExcluir"
-              >Cancelar</v-btn
-            >
-            <v-btn color="red"  @click="deleteItem()">Excluir</v-btn>
+            <v-btn color="blue darken-1" @click="closeExcluir">Cancelar</v-btn>
+            <v-btn color="red" @click="deleteItem()">Excluir</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -83,6 +75,17 @@
         </v-card>
       </v-dialog>
       <!-- FIM INFO -->
+      <!-- Inicio INFOError -->
+      <v-dialog v-model="dialogInfoError" persistent max-width="490">
+        <v-card>
+          <v-container>
+            <v-alert dense outlined type="error">
+              {{ info }}
+            </v-alert>
+          </v-container>
+        </v-card>
+      </v-dialog>
+      <!-- FIM INFOError -->
     </v-toolbar>
     <v-data-table :headers="headers" :items="doadores" class="elevation-1">
       <template v-slot:item.action="{ item }">
@@ -108,16 +111,17 @@ import DoadorHttp from "../http/DoadorHttp";
 export default {
   data: () => ({
     dialogInfo: false,
+    dialogInfoError: false,
     info: "",
     dialog: false,
     dialogExclusao: false,
     headers: [
       {
         text: "Nome",
-        align: "left",        
+        align: "left",
         value: "nome"
       },
-      { text: "Telefone", value: "telefone",sortable: false },
+      { text: "Telefone", value: "telefone", sortable: false },
       { text: "Action", value: "action", sortable: false }
     ],
     doadores: [],
@@ -159,14 +163,21 @@ export default {
       }
     },
     mostraInfo() {
-      this.dialogInfo = true
+      this.dialogInfo = true;
       setTimeout(() => {
-        this.dialogInfo = false
-        this.info = ''
+        this.dialogInfo = false;
+        this.info = "";
       }, 1500);
     },
+    mostraInfoError() {
+      this.dialogInfoError = true;
+      setTimeout(() => {
+        this.dialogInfoError = false;
+        this.info = "";
+      }, 3500);
+    },
 
-    editItem(item) {      
+    editItem(item) {
       this.editedIndex = this.doadores.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
@@ -176,14 +187,19 @@ export default {
       this.idExclusao = item.id;
       this.dialogExclusao = true;
     },
-    async deleteItem() {      
+    async deleteItem() {
       if (this.idExclusao != null) {
-        let resp = await DoadorHttp.deletar(this.idExclusao);
-        if (resp.status == 204) {
+        try {
+          await DoadorHttp.deletar(this.idExclusao);
           this.closeExcluir();
-          this.info = "Doador excluido com Sucesso."
+          this.info = "Doador excluido com Sucesso.";
           this.mostraInfo();
           this.initialize();
+        } catch (error) {
+          this.info =
+            "Esse Doador tem utensilios cadastrado, não pode ser excluido.";
+          this.closeExcluir();
+          this.mostraInfoError();
         }
       }
     },
@@ -205,10 +221,10 @@ export default {
     },
 
     async salvar() {
-      if(this.editedItem.id == null){
-        let resp = await DoadorHttp.inserir(this.editedItem)
-        if(resp.status == 201){
-          this.info = "Doador criado com Sucesso."
+      if (this.editedItem.id == null) {
+        let resp = await DoadorHttp.inserir(this.editedItem);
+        if (resp.status == 201) {
+          this.info = "Doador criado com Sucesso.";
           this.close();
           this.mostraInfo();
           this.initialize();
@@ -224,7 +240,7 @@ export default {
         if (resp.status == 200) {
           this.close();
           this.initialize();
-          this.info = "Doador atualizado com Sucesso."
+          this.info = "Doador atualizado com Sucesso.";
           this.mostraInfo();
         }
       }

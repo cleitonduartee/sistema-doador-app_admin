@@ -1,7 +1,7 @@
 const axios = require('axios');
 
-//const API_HOST = "https://desafio-cleiton-duarte.herokuapp.com/pessoas";
-const API_HOST = "http://localhost:8080/pessoas";
+const API_HOST = "https://desafio-cleiton-duarte.herokuapp.com/pessoas";
+//const API_HOST = "http://localhost:8080/pessoas";
 
 export default {
   async buscarTodos() {
