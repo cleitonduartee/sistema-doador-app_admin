@@ -30,7 +30,7 @@
                 <v-flex xs12 sm6>
                   <small>Estado do utensilio</small>
                   <v-radio-group v-model="editedItem.estado" row>
-                    <v-radio
+                    <v-radio 
                       v-for="n in ['NOVO', 'USADO']"
                       :key="n"
                       :label="`${n}`"
@@ -42,7 +42,7 @@
                 <v-flex xs12 sm6>
                   <small>Utensilio disponível?</small>
                   <v-radio-group v-model="editedItem.disponivel" row>
-                    <v-radio
+                    <v-radio 
                       v-for="n in ['SIM', 'NÂO']"
                       :key="n"
                       :label="`${n}`"
