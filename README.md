@@ -1,5 +1,7 @@
 
-# 👨‍💻 sistema-doador-app_admin 👨‍💻
+# 👨‍💻 Sistema Doador App_dmin 👨‍💻
+
+- **Click _[aqui](https://sistema-doador-admin.netlify.app/#/)_ para acessar APP.**
 
 ## Project setup
 ```
